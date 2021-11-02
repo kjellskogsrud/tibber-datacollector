@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31624.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tibber Data Collector", "Tibber Data Collector\Tibber Data Collector.csproj", "{EF63478B-5DF5-44F6-BACA-34DC7905A34D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF63478B-5DF5-44F6-BACA-34DC7905A34D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF63478B-5DF5-44F6-BACA-34DC7905A34D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF63478B-5DF5-44F6-BACA-34DC7905A34D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF63478B-5DF5-44F6-BACA-34DC7905A34D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FBB5A242-2BE7-4819-B2E7-57D4416DE09F}
+	EndGlobalSection
+EndGlobal

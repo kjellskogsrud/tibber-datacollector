@@ -71,7 +71,6 @@ namespace Tibber_Data_Collector
             };
             point.Fields = new Dictionary<string, object>()
             {
-                { "time", value.Timestamp.ToUnixTimeMilliseconds() },
                 { "power", value.Power },
                 { "accumulatedConsumption", value.AccumulatedConsumption },
                 { "accumulatedCost", value.AccumulatedCost },

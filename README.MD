@@ -12,10 +12,7 @@ version: "3.8"
 services:
   tibber-grutle3:
     container_name: tibber-pulse-collector
-    image: tibberdatacollector
-    build:
-        context: .
-        dockerfile: ./Tibber Data Collector/Dockerfile
+    image: muchomouse/tibberdatacollector
     environment:
       - influxHost=your_host
       - influxPort=8086

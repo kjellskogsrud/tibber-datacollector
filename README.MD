@@ -10,7 +10,7 @@ Download and build your own, or just rund it from docker with this docker-compos
 ---
 version: "3.8"
 services:
-  tibber-grutle3:
+  tibber:
     container_name: tibber-pulse-collector
     image: muchomouse/tibberdatacollector
     environment:

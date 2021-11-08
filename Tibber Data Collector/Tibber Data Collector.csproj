@@ -5,6 +5,11 @@
     <UserSecretsId>dotnet-Tibber_Data_Collector-B469CA7C-4A8A-467D-81A6-13D7EC23A5F1</UserSecretsId>
     <RootNamespace>Tibber_Data_Collector</RootNamespace>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\Repos\Tibber Data Collector\Tibber Data Collector\Tibber Data Collector.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

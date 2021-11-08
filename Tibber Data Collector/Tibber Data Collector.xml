@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tibber Data Collector</name>
+    </assembly>
+    <members>
+        <member name="T:Tibber_Data_Collector.GraphQLWorker">
+            <inheritdoc/>
+        </member>
+        <member name="M:Tibber_Data_Collector.GraphQLWorker.#ctor(Microsoft.Extensions.Logging.ILogger{Tibber_Data_Collector.GraphQLWorker},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tibber_Data_Collector.GraphQLWorker"/> class.
+            </summary>
+            <param name="logger">Pass in the logger.</param>
+            <param name="configuration">The app configuraiton.</param>
+        </member>
+        <member name="M:Tibber_Data_Collector.GraphQLWorker.ExecuteAsync(System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Tibber_Data_Collector.Program">
+            <summary>
+            The definition for program.
+            </summary>
+        </member>
+        <member name="M:Tibber_Data_Collector.Program.Main(System.String[])">
+            <summary>
+            Main.
+            </summary>
+            <param name="args">Command line args.</param>
+        </member>
+        <member name="M:Tibber_Data_Collector.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            <see cref="T:Microsoft.Extensions.Hosting.IHostBuilder"/>, builder of great hosts since some time ago.
+            </summary>
+            <param name="args">Args.</param>
+            <returns>An instance of <see cref="T:Microsoft.Extensions.Hosting.IHostBuilder"/>.</returns>
+        </member>
+        <member name="T:Tibber_Data_Collector.RealTimeMeasurementObserver">
+            <summary>
+            The realtime measurement observer.
+            </summary>
+        </member>
+        <member name="M:Tibber_Data_Collector.RealTimeMeasurementObserver.#ctor(Microsoft.Extensions.Logging.ILogger{Tibber_Data_Collector.RealtimeWorker},InfluxData.Net.InfluxDb.InfluxDbClient,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tibber_Data_Collector.RealTimeMeasurementObserver"/> class.
+            </summary>
+            <param name="logger">The logger.</param>
+            <param name="influxDbClient">The influxDB client.</param>
+            <param name="appsettings">A referance to the Appsettings object.</param>
+        </member>
+        <member name="P:Tibber_Data_Collector.RealTimeMeasurementObserver.HasHadError">
+            <summary>
+             Gets a value indicating whether this <see cref="T:Tibber_Data_Collector.RealTimeMeasurementObserver"/> has had an error.
+            </summary>
+        </member>
+        <member name="P:Tibber_Data_Collector.RealTimeMeasurementObserver.HasCompleted">
+            <summary>
+             Gets a value indicating whether this <see cref="T:Tibber_Data_Collector.RealTimeMeasurementObserver"/> has completed.
+            </summary>
+        </member>
+        <member name="M:Tibber_Data_Collector.RealTimeMeasurementObserver.OnCompleted">
+            <inheritdoc/>
+        </member>
+        <member name="M:Tibber_Data_Collector.RealTimeMeasurementObserver.OnError(System.Exception)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Tibber_Data_Collector.RealTimeMeasurementObserver.OnNext(Tibber.Sdk.RealTimeMeasurement)">
+            <inheritdoc/>
+        </member>
+        <member name="T:Tibber_Data_Collector.RealtimeWorker">
+            <inheritdoc/>
+        </member>
+        <member name="M:Tibber_Data_Collector.RealtimeWorker.#ctor(Microsoft.Extensions.Logging.ILogger{Tibber_Data_Collector.RealtimeWorker},Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tibber_Data_Collector.RealtimeWorker"/> class.
+            </summary>
+            <param name="logger">Pass in the logger.</param>
+            <param name="configuration">The app configuraiton.</param>
+        </member>
+        <member name="M:Tibber_Data_Collector.RealtimeWorker.ExecuteAsync(System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

@@ -30,7 +30,8 @@ namespace Tibber_Data_Collector
             Host.CreateDefaultBuilder(args)
                 .ConfigureServices((hostContext, services) =>
                 {
-                    services.AddHostedService<Worker>();
+                    services.AddHostedService<RealtimeWorker>();
+                    services.AddHostedService<GraphQLWorker>();
                 });
     }
 }

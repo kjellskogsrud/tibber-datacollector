@@ -17,7 +17,7 @@ namespace Tibber_Data_Collector
     /// </summary>
     public class RealTimeMeasurementObserver : IObserver<RealTimeMeasurement>
     {
-        private readonly ILogger<Worker> logger;
+        private readonly ILogger<RealtimeWorker> logger;
         private InfluxDbClient influxDbClient;
         private IConfiguration appsettings;
         private int signalStrenght = 0;
@@ -28,7 +28,7 @@ namespace Tibber_Data_Collector
         /// <param name="logger">The logger.</param>
         /// <param name="influxDbClient">The influxDB client.</param>
         /// <param name="appsettings">A referance to the Appsettings object.</param>
-        public RealTimeMeasurementObserver(ILogger<Worker> logger, InfluxDbClient influxDbClient, IConfiguration appsettings)
+        public RealTimeMeasurementObserver(ILogger<RealtimeWorker> logger, InfluxDbClient influxDbClient, IConfiguration appsettings)
         {
             this.logger = logger;
             this.influxDbClient = influxDbClient;
@@ -36,11 +36,29 @@ namespace Tibber_Data_Collector
             this.appsettings = appsettings;
         }
 
-        /// <inheritdoc/>
-        public void OnCompleted() => this.logger.LogInformation("Real time measurement stream has been terminated. ");
+        /// <summary>
+        ///  Gets a value indicating whether this <see cref="RealTimeMeasurementObserver"/> has had an error.
+        /// </summary>
+        public bool HasHadError { get; private set; } = false;
+
+        /// <summary>
+        ///  Gets a value indicating whether this <see cref="RealTimeMeasurementObserver"/> has completed.
+        /// </summary>
+        public bool HasCompleted { get; private set; } = false;
 
         /// <inheritdoc/>
-        public void OnError(Exception error) => this.logger.LogInformation($"An error occured: {error}");
+        public void OnCompleted()
+        {
+            this.HasCompleted = true;
+            this.logger.LogInformation("Real time measurement stream has been terminated.");
+        }
+
+        /// <inheritdoc/>
+        public void OnError(Exception error)
+        {
+            this.HasHadError = true;
+            this.logger.LogInformation($"An error occured: {error}");
+        }
 
         /// <inheritdoc/>
         public void OnNext(RealTimeMeasurement value)
@@ -72,15 +90,12 @@ namespace Tibber_Data_Collector
             if (value.SignalStrength != null)
             {
                 point.Fields.Add("signalStrength", value.SignalStrength);
-                this.logger.LogInformation("signalStrength was {0}", value.SignalStrength);
                 this.signalStrenght = (int)value.SignalStrength;
             }
             else
             {
                 point.Fields.Add("signalStrength", this.signalStrenght);
             }
-
-            // this.logger.LogInformation($"{value.Timestamp} - power: {value.Power:N0} W (average: {value.AveragePower:N0} W); consumption since last midnight: {value.AccumulatedConsumption:N3} kWh; cost since last midnight: {value.AccumulatedCost:N2} {value.Currency}");
 
             var result = this.influxDbClient.Client.WriteAsync(point, this.appsettings["influxDatabase"]).GetAwaiter().GetResult();
 

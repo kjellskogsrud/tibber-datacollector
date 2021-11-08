@@ -1,4 +1,4 @@
-// <copyright file="Worker.cs" company="Kjell Skogsrud">
+// <copyright file="RealtimeWorker.cs" company="Kjell Skogsrud">
 // Copyright (c) Kjell Skogsrud. BSD 3-Clause License
 // </copyright>
 
@@ -17,17 +17,17 @@ using Tibber.Sdk;
 namespace Tibber_Data_Collector
 {
     /// <inheritdoc/>
-    public class Worker : BackgroundService
+    public class RealtimeWorker : BackgroundService
     {
-        private readonly ILogger<Worker> logger;
+        private readonly ILogger<RealtimeWorker> logger;
         private IConfiguration appsettings;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Worker"/> class.
+        /// Initializes a new instance of the <see cref="RealtimeWorker"/> class.
         /// </summary>
         /// <param name="logger">Pass in the logger.</param>
         /// <param name="configuration">The app configuraiton.</param>
-        public Worker(ILogger<Worker> logger, IConfiguration configuration)
+        public RealtimeWorker(ILogger<RealtimeWorker> logger, IConfiguration configuration)
         {
             this.logger = logger;
             this.appsettings = configuration;
@@ -36,6 +36,8 @@ namespace Tibber_Data_Collector
         /// <inheritdoc/>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            this.logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+
             // Setup InfluxDBClient
             // This is a lazy client and does not connect untill you ask it to actually do something.
             InfluxDbClient influxClient = new InfluxDbClient(
@@ -44,23 +46,24 @@ namespace Tibber_Data_Collector
                 this.appsettings["influxPassword"],
                 InfluxDbVersion.Latest);
 
-            // this.logger.LogInformation("Lazy Influx Client ready.\n{0}\n{1}\n{2}\n{3}", this.appsettings["influxHost"], this.appsettings["influxPort"], this.appsettings["influxUser"], this.appsettings["influxPassword"]);
-            var client = new TibberApiClient(this.appsettings["tibberAPIKey"]);
-
-            var homeId = Guid.Parse(this.appsettings["tibberHomeId"]);
-
+            TibberApiClient client = new TibberApiClient(this.appsettings["tibberAPIKey"]);
+            Guid homeId = Guid.Parse(this.appsettings["tibberHomeId"]);
             var listener = await client.StartRealTimeMeasurementListener(homeId);
-
-            listener.Subscribe(new RealTimeMeasurementObserver(this.logger, influxClient, this.appsettings));
+            RealTimeMeasurementObserver rtmo = new RealTimeMeasurementObserver(this.logger, influxClient, this.appsettings);
+            listener.Subscribe(rtmo);
 
             while (!stoppingToken.IsCancellationRequested)
             {
-                // this.logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
+                if (rtmo.HasCompleted || rtmo.HasHadError)
+                {
+                    rtmo = new RealTimeMeasurementObserver(this.logger, influxClient, this.appsettings);
+                    listener.Subscribe(rtmo);
+                }
 
                 await Task.Delay(10000, stoppingToken);
             }
 
-            this.logger.LogWarning("ExecuteAsync Ended, this is a problem");
+            this.logger.LogWarning("ExecuteAsync Ended. This should not happen unless it was stopped.");
         }
     }
 }

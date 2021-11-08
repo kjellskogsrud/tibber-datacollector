@@ -2,6 +2,7 @@
 This application reads Realtime measurements from your Tibber pulse via the [Tibber API](https://developer.tibber.com/explorer), and writes datapoints to influxdb.
 
 Us together with something like Grafana to make dashboards:
+![tibber_dashboard](https://user-images.githubusercontent.com/5667385/140745787-6ebfbdbf-1218-4862-b743-38f6bc25b277.PNG)
 
 Download and build your own, or just rund it from docker with this docker-compose file:
 
